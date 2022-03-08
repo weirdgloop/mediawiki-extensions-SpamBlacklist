@@ -56,14 +56,7 @@ class SpamBlacklistHooks implements
 				$pout = $stashedEdit->output;
 			} else {
 				// Last resort, parse the page.
-				$contentRenderer = $services->getContentRenderer();
-				$pout = $contentRenderer->getParserOutput(
-					$content,
-					$title,
-					null,
-					null,
-					false
-				);
+				$pout = $content->getParserOutput( $title, null, null, false );
 			}
 		}
 		$links = array_keys( $pout->getExternalLinks() );
@@ -235,8 +228,7 @@ class SpamBlacklistHooks implements
 		// get the link from the not-yet-saved page content.
 		$content = ContentHandler::makeContent( $pageText, $title );
 		$parserOptions = ParserOptions::newFromAnon();
-		$contentRenderer = MediaWikiServices::getInstance()->getContentRenderer();
-		$output = $contentRenderer->getParserOutput( $content, $title, null, $parserOptions );
+		$output = $content->getParserOutput( $title, null, $parserOptions );
 		$links = array_keys( $output->getExternalLinks() );
 
 		// HACK: treat comment as a link if it contains anything
